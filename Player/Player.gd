@@ -20,8 +20,11 @@ onready var animation_player = $AnimationPlayer
 onready var animation_state = $AnimationTree.get("parameters/playback")
 onready var hitbox = $HitboxPivot/SwordHitbox/CollisionShape2D
 onready var sword_hitbox = $HitboxPivot/SwordHitbox
+onready var player_stats = PlayerStats
+onready var hurtbox = $Hurtbox
 
 func _ready():
+	player_stats.connect("no_health", self, "queue_free")
 	animation_tree.active = true
 	hitbox.set_deferred("disabled", true) # didn't work without this - bug?
 	sword_hitbox.knockback_vector = roll_vector
@@ -74,3 +77,8 @@ func roll_animation_finished():
 
 func attack_animation_finished():
 	state = MOVE
+
+func _on_Hurtbox_area_entered(area):
+	player_stats.health -= 1
+	hurtbox.start_invincibility(0.5)
+	hurtbox.create_hit_effect()
