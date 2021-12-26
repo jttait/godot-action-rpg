@@ -3,7 +3,6 @@ extends Control
 var health = 4 setget set_health
 var max_health = 4 setget set_max_health
 
-onready var label = $Label
 onready var heart_ui_empty = $HeartUiEmpty
 onready var heart_ui_full = $HeartUiFull
 
